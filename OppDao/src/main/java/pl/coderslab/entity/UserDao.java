@@ -64,12 +64,10 @@ public class UserDao {
                 user.setPassword(resultSet.getString("password"));
                 return user;
             }
-            return null;
-
         } catch (SQLException e) {
             e.printStackTrace();
-            return null;
         }
+        return null;
     }
 
     public void update(User user) {
@@ -101,8 +99,8 @@ public class UserDao {
         }
     }
     public User[] findAll() {
-        User[] users = new User[0];
         try (Connection conn = DbUtil.getConnection()) {
+            User[] users = new User[0];
             PreparedStatement statement =
                     conn.prepareStatement(FIND_ALL_USERS_QUERY);
             ResultSet resultSet = statement.executeQuery();
@@ -115,10 +113,11 @@ public class UserDao {
                 user.setPassword(resultSet.getString("password"));
                 users = addToArray(user, users);
             }
+            return users;
         } catch (SQLException e) {
             e.printStackTrace();
+            return null;
         }
-        return users;
     }
 
     private User[] addToArray(User u, User[] users) {
