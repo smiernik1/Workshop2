@@ -85,4 +85,19 @@ public class UserDao {
         }
     }
 
+    public void delete(int userId) {
+        try (Connection conn = DbUtil.getConnection()) {
+            PreparedStatement statement =
+                    conn.prepareStatement(DELETE_USER_QUERY);
+            statement.setInt(1, userId);
+            int rowsDeleted = statement.executeUpdate();
+
+            if (rowsDeleted == 0) {
+                System.out.println("User not found");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
